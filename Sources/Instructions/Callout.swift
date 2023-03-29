@@ -125,32 +125,6 @@ struct CalloutBubble: Shape {
     }
 }
 
-struct CalloutBubblePreview: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            CalloutBubble(edge: .bottom)
-                .fill(.green)
-                .shadow(radius: 1)
-                .frame(width: 100, height: 50)
-            
-            CalloutBubble(edge: .top)
-                .fill(.green)
-                .shadow(radius: 1)
-                .frame(width: 100, height: 50)
-            
-            CalloutBubble(edge: .leading)
-                .fill(.green)
-                .shadow(radius: 1)
-                .frame(width: 100, height: 50)
-            
-            CalloutBubble(edge: .trailing)
-                .fill(.green)
-                .shadow(radius: 1)
-                .frame(width: 100, height: 50)
-        }
-    }
-}
-
 struct CalloutButtonStyle: ButtonStyle {
     let edge: Edge
     

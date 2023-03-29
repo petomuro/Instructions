@@ -8,11 +8,10 @@
 import SwiftUI
 
 public struct InstructionsContainerView<Content: View>: View {
+    @State private var popoverSize: CGSize = .zero
     @StateObject private var instructions = Instructions()
     
-    let content: Content
-    
-    @State private var popoverSize: CGSize = .zero
+    private let content: Content
     
     public init(@ViewBuilder content: () -> Content) {
         self.content = content()
@@ -23,7 +22,7 @@ public struct InstructionsContainerView<Content: View>: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .environmentObject(instructions)
             .overlayPreferenceValue(InstructionsTagPreferenceKey.self) { all in
-                InstructionsOverlay(instructions: instructions, allRecordedItems: all, popoverSize: popoverSize, instructionsState: instructions.statePublisher)
+                InstructionsOverlay(instructionsState: instructions.statePublisher, instructions: instructions, allRecordedItems: all, popoverSize: popoverSize)
             }
             .onPreferenceChange(CalloutPreferenceKey.self) {
                 popoverSize = $0
@@ -32,9 +31,7 @@ public struct InstructionsContainerView<Content: View>: View {
 }
 
 public struct SkipButton: View {
-    @EnvironmentObject var instructions: Instructions
-    
-    public init() {}
+    @EnvironmentObject private var instructions: Instructions
     
     public var body: some View {
         Button(action: {
@@ -60,11 +57,11 @@ public struct SkipButton: View {
 }
 
 private struct InstructionsOverlay: View {
+    @ObservedObject var instructionsState: InstructionsStatePublisher
+    
     let instructions: Instructions
     let allRecordedItems: InstructionsTagPreferenceKey.Value
     let popoverSize: CGSize
-    
-    @ObservedObject var instructionsState: InstructionsStatePublisher
     
     var body: some View {
         ZStack {
@@ -206,12 +203,12 @@ private struct ActiveInstructionsOverlay: View {
 }
 
 public struct GuidableView<Content: View, Tags: InstructionsTags>: View {
+    @EnvironmentObject private var instructions: Instructions
+    
     let isActive: Bool
     let delegate: InstructionsDelegate?
     let startDelay: Double
     let content: Content
-    
-    @EnvironmentObject private var instructions: Instructions
     
     init(isActive: Bool, tags: Tags.Type, delegate: InstructionsDelegate?, startDelay: Double = 0.5, @ViewBuilder content: () -> Content) {
         self.isActive = isActive

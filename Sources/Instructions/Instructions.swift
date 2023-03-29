@@ -132,13 +132,13 @@ public final class Instructions: ObservableObject {
 }
 
 class InstructionsStatePublisher: ObservableObject {
+    @Published var state: State = .hidden
+    
     enum State {
         case hidden
         case transition
         case active
     }
-    
-    @Published var state: State = .hidden
 }
 
 public protocol InstructionsTags: CaseIterable {

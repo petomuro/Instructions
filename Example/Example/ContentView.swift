@@ -12,12 +12,12 @@ struct ContentView: View {
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     @State private var isActive: Bool = false
     
-    var basicDemoSheet: AnyView {
-        AnyView(EmptyView().sheet(isPresented: $isActive) {
+    var basicDemoSheet: some View {
+        EmptyView().sheet(isPresented: $isActive) {
             InstructionsContainerView {
                 BasicDemo(isActive: $isActive)
             }
-        })
+        }
     }
     
     var body: some View {
@@ -26,7 +26,9 @@ struct ContentView: View {
                 Button(action: {
                     isActive = true
                     
-                    sceneDelegate.setupWindow(view: basicDemoSheet)
+                    sceneDelegate.setupWindow {
+                        basicDemoSheet
+                    }
                 }) {
                     Text("Basic Demo")
                 }

@@ -35,13 +35,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
         windowScene = scene as? UIWindowScene
     }
     
-    func setupWindow(view: AnyView) {
+    func setupWindow<V: View>(@ViewBuilder content: () -> V) {
         guard let windowScene = windowScene else {
             return
         }
         
         let scSceneViewController = UIHostingController(rootView: SceneView {
-            view
+            content()
         })
         scSceneViewController.view.backgroundColor = .clear
         
