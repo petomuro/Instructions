@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ECB3994029D41C4C00146B3F /* Instructions in Frameworks */ = {isa = PBXBuildFile; productRef = ECB3993F29D41C4C00146B3F /* Instructions */; };
 		EF07403C26FBB0F700222198 /* BasicDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07403B26FBB0F700222198 /* BasicDemo.swift */; };
 		EF07403E26FBB11E00222198 /* BarDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07403D26FBB11E00222198 /* BarDemo.swift */; };
 		EF07404026FBB14800222198 /* CustomDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07403F26FBB14800222198 /* CustomDemo.swift */; };
 		EF07404226FBC33500222198 /* ManualDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07404126FBC33500222198 /* ManualDemo.swift */; };
-		EF07404B26FBCFCE00222198 /* Dux in Frameworks */ = {isa = PBXBuildFile; productRef = EF07404A26FBCFCE00222198 /* Dux */; };
 		EF84DC6326FB7EA9004A793C /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84DC6226FB7EA9004A793C /* ExampleApp.swift */; };
 		EF84DC6726FB7EAE004A793C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF84DC6626FB7EAE004A793C /* Assets.xcassets */; };
 		EF84DC6A26FB7EAE004A793C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF84DC6926FB7EAE004A793C /* Preview Assets.xcassets */; };
@@ -19,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ECB3993E29D41AC900146B3F /* Instructions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Instructions; path = ..; sourceTree = "<group>"; };
 		EF07403B26FBB0F700222198 /* BasicDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicDemo.swift; sourceTree = "<group>"; };
 		EF07403D26FBB11E00222198 /* BarDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarDemo.swift; sourceTree = "<group>"; };
 		EF07403F26FBB14800222198 /* CustomDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDemo.swift; sourceTree = "<group>"; };
@@ -36,18 +37,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF07404B26FBCFCE00222198 /* Dux in Frameworks */,
+				ECB3994029D41C4C00146B3F /* Instructions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ECB3993929D4191B00146B3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ECB3993D29D41AC900146B3F /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				ECB3993E29D41AC900146B3F /* Instructions */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		EF84DC5626FB7EA9004A793C = {
 			isa = PBXGroup;
 			children = (
+				ECB3993D29D41AC900146B3F /* Packages */,
 				EF84DC6126FB7EA9004A793C /* Example */,
 				EF84DC6026FB7EA9004A793C /* Products */,
+				ECB3993929D4191B00146B3F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,14 +80,14 @@
 		EF84DC6126FB7EA9004A793C /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				EF84DC6226FB7EA9004A793C /* ExampleApp.swift */,
-				EF84DC7526FB7EEE004A793C /* ContentView.swift */,
-				EF07403B26FBB0F700222198 /* BasicDemo.swift */,
+				EF84DC6B26FB7EAE004A793C /* Info.plist */,
 				EF07403D26FBB11E00222198 /* BarDemo.swift */,
+				EF07403B26FBB0F700222198 /* BasicDemo.swift */,
+				EF84DC7526FB7EEE004A793C /* ContentView.swift */,
 				EF07403F26FBB14800222198 /* CustomDemo.swift */,
+				EF84DC6226FB7EA9004A793C /* ExampleApp.swift */,
 				EF07404126FBC33500222198 /* ManualDemo.swift */,
 				EF84DC6626FB7EAE004A793C /* Assets.xcassets */,
-				EF84DC6B26FB7EAE004A793C /* Info.plist */,
 				EF84DC6826FB7EAE004A793C /* Preview Content */,
 			);
 			path = Example;
@@ -100,7 +118,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				EF07404A26FBCFCE00222198 /* Dux */,
+				ECB3993F29D41C4C00146B3F /* Instructions */,
 			);
 			productName = Example;
 			productReference = EF84DC5F26FB7EA9004A793C /* Example.app */;
@@ -130,7 +148,6 @@
 			);
 			mainGroup = EF84DC5626FB7EA9004A793C;
 			packageReferences = (
-				EF07404926FBCFCE00222198 /* XCRemoteSwiftPackageReference "Dux" */,
 			);
 			productRefGroup = EF84DC6026FB7EA9004A793C /* Products */;
 			projectDirPath = "";
@@ -221,7 +238,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -276,7 +293,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -293,15 +310,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Example/Preview Content\"";
-				DEVELOPMENT_TEAM = CKS5EY95X9;
+				DEVELOPMENT_TEAM = AU24N2457S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jakeheis.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.petomuro.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -315,15 +332,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Example/Preview Content\"";
-				DEVELOPMENT_TEAM = CKS5EY95X9;
+				DEVELOPMENT_TEAM = AU24N2457S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jakeheis.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.petomuro.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -353,22 +370,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		EF07404926FBCFCE00222198 /* XCRemoteSwiftPackageReference "Dux" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/jakeheiser/Desktop/Projects/iOS/Dux";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		EF07404A26FBCFCE00222198 /* Dux */ = {
+		ECB3993F29D41C4C00146B3F /* Instructions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EF07404926FBCFCE00222198 /* XCRemoteSwiftPackageReference "Dux" */;
-			productName = Dux;
+			productName = Instructions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

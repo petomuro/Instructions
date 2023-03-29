@@ -1,6 +1,6 @@
-# Dux
+# Instructions
 
-[![Build Status](https://github.com/jakeheis/Dux/workflows/Build/badge.svg)](https://github.com/jakeheis/SwiftCLI/actions)
+[![Build Status](https://github.com/jakeheis/Instructions/workflows/Build/badge.svg)](https://github.com/jakeheis/SwiftCLI/actions)
 
 Guide users through your SwiftUI app with coach marks.
 
@@ -8,7 +8,7 @@ Guide users through your SwiftUI app with coach marks.
 
 ## Pre-release note
 
-`Dux` has not hit `1.0.0` yet and is undergoing active development which means APIs are unstable and may change.
+`Instructions` has not hit `1.0.0` yet and is undergoing active development which means APIs are unstable and may change.
 
 ## Installation
 
@@ -16,7 +16,7 @@ In `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/jakeheis/Dux", .upToNextMajor(from: "0.0.1"))
+    .package(url: "https://github.com/jakeheis/Instructions", .upToNextMajor(from: "0.0.1"))
 ]
 ```
 
@@ -27,7 +27,7 @@ dependencies: [
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            DuxContainerView {
+            InstructionsContainerView {
                 MyView()
             }
         }
@@ -35,7 +35,7 @@ struct MyApp: App {
 }
 
 struct MyView: View {
-    enum Tags: DuxTags {
+    enum Tags: InstructionsTags {
         case hello
         
         func makeCallout() -> Callout {
@@ -46,14 +46,14 @@ struct MyView: View {
     var body: some View {
         VStack {
             Text("Hello world")
-                .duxTag(Tags.hello)
+                .instructionsTag(Tags.hello)
         }
-        .dux(isActive: true, tags: Tags.self)
+        .instructions(isActive: true, tags: Tags.self)
     }
 }
 ```
 
-See the `Examples` directory for more examples of how to use `Dux`.
+See the `Examples` directory for more examples of how to use `Instructions`.
 
 ## Attributions
 
