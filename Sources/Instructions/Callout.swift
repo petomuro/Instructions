@@ -14,6 +14,9 @@ public enum CutoutTouchMode {
 }
 
 public struct Callout {
+    public let body: (_ onTap: @escaping () -> Void) -> AnyView
+    public let edge: Edge
+    
     public static func text(_ text: String, edge: Edge = .top) -> Self {
         .bubble(edge: edge) {
             Text(text)
@@ -40,7 +43,9 @@ public struct Callout {
     public static func bubble<V: View>(edge: Edge = .top, @ViewBuilder content: () -> V) -> Self {
         let inside = content()
         let bodyBlock: (@escaping () -> Void) -> AnyView = { onTap in
-            AnyView(Button(action: onTap) {
+            AnyView(Button(action: {
+                onTap()
+            }) {
                 inside
                     .padding(5)
             }
@@ -56,9 +61,6 @@ public struct Callout {
             onTap in AnyView(content(onTap))
         }, edge: edge)
     }
-    
-    public let body: (_ onTap: @escaping () -> Void) -> AnyView
-    public let edge: Edge
     
     func createView(onTap: @escaping () -> Void) -> some View {
         body(onTap)
