@@ -1,5 +1,5 @@
 //
-//  BasicDemo.swift
+//  BasicDemoView.swift
 //  Example
 //
 //  Created by Jake Heiser on 9/22/21.
@@ -8,7 +8,7 @@
 import Instructions
 import SwiftUI
 
-struct BasicDemo: View {
+struct BasicDemoView: View {
     @Binding var isActive: Bool
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     
@@ -24,7 +24,9 @@ struct BasicDemo: View {
             case .name:
                 return .okText("Here is your name")
             case .username:
-                return .text("Your current username")
+                return .bubble {
+                    Text("Your current username")
+                }
             }
         }
     }
@@ -46,14 +48,15 @@ struct BasicDemo: View {
                 Spacer()
                 
                 HStack(spacing: 10) {
-                    ProfileDetail(text: "34 posts")
+                    ProfileDetailView(text: "34 posts")
                     
-                    ProfileDetail(text: "@jsmith")
+                    ProfileDetailView(text: "@jsmith")
                         .instructionsTag(Tags.username)
                     
-                    ProfileDetail(text: "29 karma")
+                    ProfileDetailView(text: "29 karma")
                 }
             }
+            .padding()
             .instructions(isActive: true, tags: Tags.self)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -73,6 +76,6 @@ struct BasicDemo: View {
 
 struct BasicDemo_Previews: PreviewProvider {
     static var previews: some View {
-        BasicDemo(isActive: .constant(true))
+        BasicDemoView(isActive: .constant(true))
     }
 }

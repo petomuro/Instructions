@@ -1,5 +1,5 @@
 //
-//  InstructionsContainerView.swift
+//  InstructionsContentView.swift
 //  Instructions
 //
 //  Created by Jake Heiser on 9/21/21.
@@ -165,7 +165,7 @@ private struct InstructionsOverlay: View {
     }
 }
 
-public struct InstructionsContainerView<Content: View>: View {
+public struct InstructionsContentView<Content: View>: View {
     @StateObject private var instructions = Instructions()
     
     private let content: Content

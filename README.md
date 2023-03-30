@@ -27,7 +27,7 @@ dependencies: [
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            InstructionsContainerView {
+            InstructionsContentView {
                 MyView()
             }
         }

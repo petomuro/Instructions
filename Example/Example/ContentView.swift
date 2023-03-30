@@ -12,10 +12,24 @@ struct ContentView: View {
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     @State private var isActive: Bool = false
     
+    enum Tags: InstructionsTags {
+        case sheet
+        case navigationLink
+        
+        func makeCallout() -> Callout {
+            switch self {
+            case .sheet:
+                return .text("This is a sheet", edge: .bottom)
+            case .navigationLink:
+                return .okText("This is a navigation link", edge: .bottom)
+            }
+        }
+    }
+    
     var basicDemoSheet: some View {
         EmptyView().sheet(isPresented: $isActive) {
-            InstructionsContainerView {
-                BasicDemo(isActive: $isActive)
+            InstructionsContentView {
+                BasicDemoView(isActive: $isActive)
             }
         }
     }
@@ -32,13 +46,16 @@ struct ContentView: View {
                 }) {
                     Text("Basic Demo")
                 }
+                .instructionsTag(Tags.sheet)
                 
-                NavigationLink(destination: BasicDemo2()) {
+                NavigationLink(destination: BasicDemo2View()) {
                     Text("Basic Demo")
                 }
+                .instructionsTag(Tags.navigationLink)
             }
-            .navigationViewStyle(.stack)
+            .instructions(isActive: true, tags: Tags.self)
         }
+        .navigationViewStyle(.stack)
     }
 }
 

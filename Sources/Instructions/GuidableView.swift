@@ -62,7 +62,7 @@ struct GuidableView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        InstructionsContainerView {
+        InstructionsContentView {
             NavigationView {
                 VStack {
                     Spacer()

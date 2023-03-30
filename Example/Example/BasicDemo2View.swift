@@ -1,5 +1,5 @@
 //
-//  BasicDemo2.swift
+//  BasicDemo2View.swift
 //  Example
 //
 //  Created by Peter Murin on 29/03/2023.
@@ -8,7 +8,7 @@
 import Instructions
 import SwiftUI
 
-struct BasicDemo2: View {
+struct BasicDemo2View: View {
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     
     enum Tags: InstructionsTags {
@@ -19,11 +19,21 @@ struct BasicDemo2: View {
             func makeCallout() -> Callout {
                 switch self {
                 case .profilePicture:
-                    return .text("Nice profile picture", edge: .bottom)
+                    return .okText("Nice profile picture", edge: .bottom)
                 case .name:
-                    return .okText("Here is your name")
+                    return .bubble {
+                        Text("Here is your name")
+                    }
                 case .username:
-                    return .text("Your current username")
+                    return .custom(edge: .top) { _ in
+                        Text("Your current username")
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.green, lineWidth: 1)
+                            )
+                            .padding(.bottom)
+                    }
                 }
             }
         }
@@ -44,22 +54,23 @@ struct BasicDemo2: View {
             Spacer()
             
             HStack(spacing: 10) {
-                ProfileDetail(text: "34 posts")
+                ProfileDetailView(text: "34 posts")
                 
-                ProfileDetail(text: "@jsmith")
+                ProfileDetailView(text: "@jsmith")
                     .instructionsTag(Tags.username)
                 
-                ProfileDetail(text: "29 karma")
+                ProfileDetailView(text: "29 karma")
             }
         }
+        .padding()
         .instructions(isActive: true, tags: Tags.self)
         .navigationTitle("Basic Demo")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-struct BasicDemo2_Previews: PreviewProvider {
+struct BasicDemo2View_Previews: PreviewProvider {
     static var previews: some View {
-        BasicDemo2()
+        BasicDemo2View()
     }
 }

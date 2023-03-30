@@ -55,7 +55,7 @@ private struct CalloutBubble: Shape {
         
         path.move(to: points.last ?? .zero)
         path.addLines(points)
-        path.addRoundedRect(in: frame, cornerSize: .init(width: 5, height: 5))
+        path.addRoundedRect(in: frame, cornerSize: .init(width: 10, height: 10))
         
         return path
     }
@@ -94,7 +94,7 @@ private struct CalloutButtonStyle: ButtonStyle {
         .background(
             CalloutBubble(edge: edge)
                 .fill(configuration.isPressed ? Color(white: 0.8, opacity: 1.0) : .white)
-                .shadow(radius: 2)
+                .shadow(radius: 1)
         )
     }
 }

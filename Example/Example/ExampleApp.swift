@@ -68,7 +68,7 @@ struct ExampleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            InstructionsContainerView {
+            InstructionsContentView {
                 ContentView()
             }
         }

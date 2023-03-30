@@ -1,5 +1,5 @@
 //
-//  ProfileDetail.swift
+//  ProfileDetailView.swift
 //  Example
 //
 //  Created by Peter Murin on 29/03/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileDetail: View {
+struct ProfileDetailView: View {
     let text: String
     
     var body: some View {
@@ -18,14 +18,14 @@ struct ProfileDetail: View {
             .padding(.horizontal)
             .frame(maxHeight: 60)
             .background(
-                RoundedRectangle(cornerRadius: 5)
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.green)
             )
     }
 }
 
-struct ProfileDetail_Previews: PreviewProvider {
+struct ProfileDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileDetail(text: "")
+        ProfileDetailView(text: "")
     }
 }

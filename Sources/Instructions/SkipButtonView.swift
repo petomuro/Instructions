@@ -29,7 +29,7 @@ struct SkipButtonView: View {
                         )
                 }
             }
-            .padding(.trailing)
+            .padding([.top, .trailing])
             
             Spacer()
         }
