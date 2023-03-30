@@ -8,10 +8,10 @@
 import SwiftUI
 
 extension View {
-    public func instructions<Tags: InstructionsTags>(isActive: Bool, tags: Tags.Type, delegate: InstructionsDelegate? = nil) -> some View {
-        GuidableView(isActive: isActive, tags: tags, delegate: delegate) {
+    public func instructions<Tags: InstructionsTags>(isActive: Bool, tags: Tags.Type) -> some View {
+        GuidableView(content: {
             self
-        }
+        }, isActive: isActive, tags: tags)
     }
     
     public func instructionsTag<T: InstructionsTags>(_ tag: T) -> some View {
@@ -38,7 +38,6 @@ extension View {
         }
         
         let overlayView = Color.clear
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .frame(width: width, height: height)
             .instructionsTag(tag)
             .padding(Edge.Set(edge), -size)

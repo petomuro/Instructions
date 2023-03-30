@@ -13,51 +13,48 @@ struct BasicDemo: View {
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     
     enum Tags: InstructionsTags {
-            case profilePicture
-            case name
-            case username
-            
-            func makeCallout() -> Callout {
-                switch self {
-                case .profilePicture:
-                    return .text("Nice profile picture", edge: .bottom)
-                case .name:
-                    return .okText("Here is your name")
-                case .username:
-                    return .text("Your current username")
-                }
+        case profilePicture
+        case name
+        case username
+        
+        func makeCallout() -> Callout {
+            switch self {
+            case .profilePicture:
+                return .text("Nice profile picture", edge: .bottom)
+            case .name:
+                return .okText("Here is your name")
+            case .username:
+                return .text("Your current username")
             }
         }
+    }
     
     var body: some View {
         NavigationView {
-            GeometryReader { geo in
-                VStack {
-                    Spacer()
+            VStack {
+                Spacer()
+                
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: 100)
+                    .instructionsTag(Tags.profilePicture)
+                
+                Text("John Smith")
+                    .instructionsTag(Tags.name)
+                
+                Spacer()
+                
+                HStack(spacing: 10) {
+                    ProfileDetail(text: "34 posts")
                     
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: 100)
-                        .instructionsTag(Tags.profilePicture)
+                    ProfileDetail(text: "@jsmith")
+                        .instructionsTag(Tags.username)
                     
-                    Text("John Smith")
-                        .instructionsTag(Tags.name)
-                    
-                    Spacer()
-                    
-                    HStack(spacing: 10) {
-                        ProfileDetail(text: "34 posts")
-                        
-                        ProfileDetail(text: "@jsmith")
-                            .instructionsTag(Tags.username)
-                        
-                        ProfileDetail(text: "29 karma")
-                    }
+                    ProfileDetail(text: "29 karma")
                 }
-                .frame(maxWidth: geo.size.width, maxHeight: geo.size.height)
-                .instructions(isActive: true, tags: Tags.self)
             }
+            .instructions(isActive: true, tags: Tags.self)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {

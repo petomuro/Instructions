@@ -16,7 +16,7 @@ struct ProfileDetail: View {
             .multilineTextAlignment(.center)
             .foregroundColor(.white)
             .padding(.horizontal)
-            .frame(height: 60)
+            .frame(maxHeight: 60)
             .background(
                 RoundedRectangle(cornerRadius: 5)
                     .fill(.green)

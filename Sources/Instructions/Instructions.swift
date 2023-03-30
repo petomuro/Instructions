@@ -7,66 +7,61 @@
 
 import SwiftUI
 
-public protocol InstructionsDelegate {
-    func accessoryView(instructions: Instructions) -> AnyView?
-    func overlay(instructions: Instructions) -> AnyView?
-    func cutoutTouchMode(instructions: Instructions) -> CutoutTouchMode
-    func onBackgroundTap(instructions: Instructions) async throws
-    func onCalloutTap(instructions: Instructions) async throws
+public protocol InstructionsTags: CaseIterable {
+    func makeCallout() -> Callout
 }
 
-extension InstructionsDelegate {
-    public func accessoryView(instructions: Instructions) -> AnyView? {
-        AnyView(SkipButton())
-    }
-    
-    public func overlay(instructions: Instructions) -> AnyView? {
-        AnyView(Color(white: 0.8, opacity: 0.5))
-    }
-    
-    public func cutoutTouchMode(instructions: Instructions) -> CutoutTouchMode {
-        .advance
-    }
-    
-    public func onBackgroundTap(instructions: Instructions) async throws {
-        try await instructions.advance()
-    }
-    
-    public func onCalloutTap(instructions: Instructions) async throws {
-        try await instructions.advance()
+extension InstructionsTags {
+    func key() -> String {
+        String(reflecting: Self.self) + "." + String(describing: self)
     }
 }
 
-struct DefaultInstructionsDelegate: InstructionsDelegate {}
-
-public final class Instructions: ObservableObject {
-    let statePublisher = InstructionsStatePublisher()
-    public private(set) var current: String? = nil
+public class Instructions: ObservableObject {
+    @Published var state: InstructionsState = .hidden
     
     private var currentPlan: [String]?
+    private(set) var current: String? = nil
     
-    var delegate: InstructionsDelegate = DefaultInstructionsDelegate()
+    enum InstructionsState {
+        case hidden
+        case transition
+        case active
+    }
     
-    public func start<Tags: InstructionsTags>(tags: Tags.Type, delegate: InstructionsDelegate?) async throws {
-        let plan = tags.allCases.map {
-            $0.key()
-        }
-        
-        currentPlan = plan
-        
-        self.delegate = delegate ?? DefaultInstructionsDelegate()
-        
-        if plan.count > 0 {
-            try await moveTo(item: plan[0])
+    @MainActor
+    private func moveTo(item: String) async throws {
+        if state == .active {
+            withAnimation {
+                state = .transition
+            }
             
-            current = plan[0]
+            try await Task.sleep(nanoseconds: 500000000)
+            
+            withAnimation {
+                current = item
+                state = .transition
+                state = .active
+            }
+        } else {
+            withAnimation {
+                current = item
+                state = .active
+            }
         }
     }
     
-    public func matchCurrent<T: InstructionsTags>(_ tags: T.Type) -> T? {
-        T.allCases.first(where: {
-            $0.key() == current
-        })
+    @MainActor
+    private func stopImpl() {
+        withAnimation {
+            state = .hidden
+            currentPlan = nil
+            current = nil
+        }
+    }
+    
+    public func stop() async {
+        await stopImpl()
     }
     
     public func advance() async throws {
@@ -95,58 +90,23 @@ public final class Instructions: ObservableObject {
         try await moveTo(item: currentPlan[index])
     }
     
-    public func stop() async {
-        await stopImpl()
+    public func matchCurrent<T: InstructionsTags>(_ tags: T.Type) -> T? {
+        T.allCases.first(where: {
+            $0.key() == current
+        })
     }
     
-    @MainActor
-    private func moveTo(item: String) async throws {
-        if statePublisher.state == .active {
-            withAnimation {
-                statePublisher.state = .transition
-            }
-            
-            try await Task.sleep(nanoseconds: 500000000)
-            
-            withAnimation {
-                current = item
-                statePublisher.state = .transition
-                statePublisher.state = .active
-            }
-        } else {
-            withAnimation {
-                current = item
-                statePublisher.state = .active
-            }
+    public func start<Tags: InstructionsTags>(tags: Tags.Type) async throws {
+        let plan = tags.allCases.map {
+            $0.key()
         }
-    }
-    
-    @MainActor
-    private func stopImpl() {
-        withAnimation {
-            statePublisher.state = .hidden
-            currentPlan = nil
-            current = nil
+        
+        currentPlan = plan
+        
+        if plan.count > 0 {
+            try await moveTo(item: plan.first ?? "")
+            
+            current = plan.first ?? ""
         }
-    }
-}
-
-class InstructionsStatePublisher: ObservableObject {
-    @Published var state: State = .hidden
-    
-    enum State {
-        case hidden
-        case transition
-        case active
-    }
-}
-
-public protocol InstructionsTags: CaseIterable {
-    func makeCallout() -> Callout
-}
-
-extension InstructionsTags {
-    func key() -> String {
-        String(reflecting: Self.self) + "." + String(describing: self)
     }
 }

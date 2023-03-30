@@ -7,74 +7,10 @@
 
 import SwiftUI
 
-public enum CutoutTouchMode {
-    case passthrough
-    case advance
-    case custom(() -> Void)
-}
-
-public struct Callout {
-    public let body: (_ onTap: @escaping () -> Void) -> AnyView
-    public let edge: Edge
-    
-    public static func text(_ text: String, edge: Edge = .top) -> Self {
-        .bubble(edge: edge) {
-            Text(text)
-        }
-    }
-    
-    public static func okText(_ text: String, edge: Edge = .top) -> Self {
-        .bubble(edge: edge) {
-            HStack {
-                Text(text)
-                    .padding(.trailing, 5)
-                
-                Color.black
-                    .frame(width: 1)
-                
-                Text("Ok!")
-                    .padding(.leading, 5)
-                
-            }
-            .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-    
-    public static func bubble<V: View>(edge: Edge = .top, @ViewBuilder content: () -> V) -> Self {
-        let inside = content()
-        let bodyBlock: (@escaping () -> Void) -> AnyView = { onTap in
-            AnyView(Button(action: {
-                onTap()
-            }) {
-                inside
-                    .padding(5)
-            }
-                .padding(.horizontal)
-                .buttonStyle(CalloutButtonStyle(edge: edge)))
-        }
-        
-        return .init(body: bodyBlock, edge: edge)
-    }
-    
-    public static func custom<V: View>(edge: Edge = .top, @ViewBuilder content: @escaping (_ onTap: @escaping () -> Void) -> V) -> Self {
-        return .init(body: {
-            onTap in AnyView(content(onTap))
-        }, edge: edge)
-    }
-    
-    func createView(onTap: @escaping () -> Void) -> some View {
-        body(onTap)
-            .overlay(GeometryReader { proxy in
-                Color.clear
-                    .preference(key: CalloutPreferenceKey.self, value: proxy.size)
-            })
-    }
-}
-
-struct CalloutBubble: Shape {
+private struct CalloutBubble: Shape {
     let edge: Edge
     
-    func path(in rect: CGRect) -> Path {
+    fileprivate func path(in rect: CGRect) -> Path {
         let pointerWidth: CGFloat = 10
         let pointerHeight: CGFloat = 10
         
@@ -117,7 +53,7 @@ struct CalloutBubble: Shape {
             frame = .init(x: pointerHeight, y: 0, width: rect.width - pointerHeight, height: rect.height)
         }
         
-        path.move(to: points.last!)
+        path.move(to: points.last ?? .zero)
         path.addLines(points)
         path.addRoundedRect(in: frame, cornerSize: .init(width: 5, height: 5))
         
@@ -125,20 +61,20 @@ struct CalloutBubble: Shape {
     }
 }
 
-struct CalloutButtonStyle: ButtonStyle {
+private struct CalloutButtonStyle: ButtonStyle {
     let edge: Edge
     
-    func makeBody(configuration: Configuration) -> some View {
+    fileprivate func makeBody(configuration: Configuration) -> some View {
         VStack(spacing: 0) {
             if edge == .bottom {
                 Color.clear
-                    .frame(width: 1, height: 10)
+                    .frame(maxWidth: 1, maxHeight: 10)
             }
             
             HStack {
                 if edge == .trailing {
                     Color.clear
-                        .frame(width: 10, height: 1)
+                        .frame(maxWidth: 10, maxHeight: 1)
                 }
                 
                 configuration.label
@@ -146,13 +82,13 @@ struct CalloutButtonStyle: ButtonStyle {
                 
                 if edge == .leading {
                     Color.clear
-                        .frame(width: 10, height: 1)
+                        .frame(maxWidth: 10, maxHeight: 1)
                 }
             }
             
             if edge == .top {
                 Color.clear
-                    .frame(width: 1, height: 10)
+                    .frame(maxWidth: 1, maxHeight: 10)
             }
         }
         .background(
@@ -163,12 +99,60 @@ struct CalloutButtonStyle: ButtonStyle {
     }
 }
 
-struct CalloutPreferenceKey: PreferenceKey {
-    typealias Value = CGSize
+public struct Callout {
+    public let body: (_ onTap: @escaping () -> Void) -> AnyView
+    public let edge: Edge
     
-    static var defaultValue: Value = .zero
+    public static func text(_ text: String, edge: Edge = .top) -> Self {
+        .bubble(edge: edge) {
+            Text(text)
+        }
+    }
     
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        value = nextValue()
+    public static func okText(_ text: String, edge: Edge = .top) -> Self {
+        .bubble(edge: edge) {
+            HStack {
+                Text(text)
+                    .padding(.trailing, 5)
+                
+                Color.black
+                    .frame(maxWidth: 1)
+                
+                Text("Ok")
+                    .padding(.leading, 5)
+                
+            }
+            .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+    
+    public static func bubble<V: View>(edge: Edge = .top, @ViewBuilder content: () -> V) -> Self {
+        let inside = content()
+        let bodyBlock: (@escaping () -> Void) -> AnyView = { onTap in
+            AnyView(Button(action: {
+                onTap()
+            }) {
+                inside
+                    .padding(5)
+            }
+                .padding(.horizontal)
+                .buttonStyle(CalloutButtonStyle(edge: edge)))
+        }
+        
+        return .init(body: bodyBlock, edge: edge)
+    }
+    
+    public static func custom<V: View>(edge: Edge = .top, @ViewBuilder content: @escaping (_ onTap: @escaping () -> Void) -> V) -> Self {
+        return .init(body: {
+            onTap in AnyView(content(onTap))
+        }, edge: edge)
+    }
+    
+    func createView(onTap: @escaping () -> Void) -> some View {
+        body(onTap)
+            .overlay(GeometryReader { proxy in
+                Color.clear
+                    .preference(key: CalloutPreferenceKey.self, value: proxy.size)
+            })
     }
 }
