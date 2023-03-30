@@ -1,7 +1,5 @@
 # Instructions
 
-[![Build Status](https://github.com/jakeheis/Instructions/workflows/Build/badge.svg)](https://github.com/jakeheis/SwiftCLI/actions)
-
 Guide users through your SwiftUI app with coach marks.
 
 <img src=".github/Screenshot.png" width="240">
