@@ -1,8 +1,8 @@
 //
-//  Preferences.swift
+//  Structs.swift
 //  
 //
-//  Created by Peter Murin on 30/03/2023.
+//  Created by Peter Murin on 31/03/2023.
 //
 
 import SwiftUI
@@ -13,6 +13,11 @@ struct CalloutPreferenceKey: PreferenceKey {
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
         value = nextValue()
     }
+}
+
+struct InstructionsTagInfo {
+    let anchor: Anchor<CGRect>
+    let callout: Callout
 }
 
 struct InstructionsTagPreferenceKey: PreferenceKey {

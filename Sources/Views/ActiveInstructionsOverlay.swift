@@ -1,25 +1,20 @@
 //
-//  InstructionsContentView.swift
-//  Instructions
+//  ActiveInstructionsOverlay.swift
+//  
 //
-//  Created by Jake Heiser on 9/21/21.
+//  Created by Peter Murin on 31/03/2023.
 //
 
 import SwiftUI
 
-private enum CutoutTouchMode {
-    case passthrough
-    case advance
-    case custom(() -> Void)
-}
-
-struct InstructionsTagInfo {
-    let anchor: Anchor<CGRect>
-    let callout: Callout
-}
-
-private struct ActiveInstructionsOverlay: View {
+struct ActiveInstructionsOverlay: View {
     @EnvironmentObject private var instructions: Instructions
+    
+    private enum CutoutTouchMode {
+        case passthrough
+        case advance
+        case custom(() -> Void)
+    }
     
     let popoverSize: CGSize
     let tagInfo: InstructionsTagInfo
@@ -134,52 +129,10 @@ private struct ActiveInstructionsOverlay: View {
     }
 }
 
-private struct InstructionsOverlay: View {
-    @EnvironmentObject private var instructions: Instructions
-    @State private var popoverSize: CGSize = .zero
-    
-    let allRecordedItems: InstructionsTagPreferenceKey.Value
-    
-    var body: some View {
-        ZStack {
-            if instructions.state == .transition {
-                OverlayView()
-                
-                if let current = instructions.current, let details = allRecordedItems[current] {
-                    details.callout.createView(onTap: {})
-                        .opacity(0)
-                }
-            } else if instructions.state == .active {
-                if let current = instructions.current,  let tagInfo = allRecordedItems[current] {
-                    ActiveInstructionsOverlay(popoverSize: popoverSize, tagInfo: tagInfo)
-                        .onPreferenceChange(CalloutPreferenceKey.self) {
-                            popoverSize = $0
-                        }
-                }
-            }
-            
-            if instructions.state != .hidden {
-                SkipButtonView()
-            }
-        }
-    }
-}
-
-public struct InstructionsContentView<Content: View>: View {
-    @StateObject private var instructions = Instructions()
-    
-    private let content: Content
-    
-    public init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-    
-    public var body: some View {
-        content
-            .environmentObject(instructions)
-            .overlayPreferenceValue(InstructionsTagPreferenceKey.self) { all in
-                InstructionsOverlay(allRecordedItems: all)
-                    .environmentObject(instructions)
-            }
-    }
-}
+ struct ActiveInstructionsOverlay_Previews: PreviewProvider {
+     static var previews: some View {
+         if let tagInfo = InstructionsTagPreferenceKey.Value()[""] {
+             ActiveInstructionsOverlay(popoverSize: .zero, tagInfo: tagInfo)
+         }
+     }
+ }

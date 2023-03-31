@@ -1,21 +1,11 @@
 //
 //  Instructions.swift
-//  Instructions
+//
 //
 //  Created by Jake Heiser on 9/21/21.
 //
 
 import SwiftUI
-
-public protocol InstructionsTags: CaseIterable {
-    func makeCallout() -> Callout
-}
-
-extension InstructionsTags {
-    func key() -> String {
-        String(reflecting: Self.self) + "." + String(describing: self)
-    }
-}
 
 public class Instructions: ObservableObject {
     @Published var state: InstructionsState = .hidden
@@ -60,11 +50,11 @@ public class Instructions: ObservableObject {
         }
     }
     
-    public func stop() async {
+    func stop() async {
         await stopImpl()
     }
     
-    public func advance() async throws {
+    func advance() async throws {
         guard let current = current, let currentPlan = currentPlan else {
             return
         }
@@ -82,7 +72,7 @@ public class Instructions: ObservableObject {
         try await moveTo(item: currentPlan[index + 1])
     }
     
-    public func jump<T: InstructionsTags>(to tag: T) async throws {
+    func jump<T: InstructionsTags>(to tag: T) async throws {
         guard let currentPlan = currentPlan, let index = currentPlan.firstIndex(of: tag.key()) else {
             return
         }
@@ -90,13 +80,13 @@ public class Instructions: ObservableObject {
         try await moveTo(item: currentPlan[index])
     }
     
-    public func matchCurrent<T: InstructionsTags>(_ tags: T.Type) -> T? {
+    func matchCurrent<T: InstructionsTags>(_ tags: T.Type) -> T? {
         T.allCases.first(where: {
             $0.key() == current
         })
     }
     
-    public func start<Tags: InstructionsTags>(tags: Tags.Type) async throws {
+    func start<Tags: InstructionsTags>(tags: Tags.Type) async throws {
         let plan = tags.allCases.map {
             $0.key()
         }

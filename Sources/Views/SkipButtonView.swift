@@ -37,7 +37,10 @@ struct SkipButtonView: View {
 }
 
 struct SkipButtonView_Previews: PreviewProvider {
+    @StateObject static var instructions = Instructions()
+    
     static var previews: some View {
         SkipButtonView()
+            .environmentObject(instructions)
     }
 }
