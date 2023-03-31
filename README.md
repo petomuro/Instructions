@@ -2,7 +2,7 @@
 
 Guide users through your SwiftUI app with coach marks.
 
-![Screenshot](Screenshot.png)
+![Screenshot](Screenshot.png | width=240)
 
 ## Pre-release note
 
